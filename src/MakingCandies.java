@@ -10,57 +10,67 @@ public class MakingCandies {
 
     // Complete the minimumPasses function below.
     static long minimumPasses(long m, long w, long p, long n) {
-
-        long ret = 0;
-        return helper(m,w,p,0,n,ret);
+        return helper(m,w,p,0,n);
     }
 
-    static long helper(long m, long w, long p, long t, long r, long ret){
-        if(t >= r) return ret;
-
-        ret++;
-
-        if(t == 0){
-            return helper(m,w,p,t+m*w,r,ret);
-        }
-        else{
-            if(m*w >= r-t){
-                return helper(m,w,p,t+m*w,r,ret);
+    static long helper(long m, long w, long price, long candies, long target){
+        long ret = 0;
+        long spent = Long.MAX_VALUE;
+        while(candies < target){
+            if(candies < price){
+                long required = price-candies;
+                long iterationNeeded = (long)Math.ceil((double)required / (m*w));
+                candies = candies+(m*w*iterationNeeded);
+                ret+=iterationNeeded;
             }
             else{
-                long available = t / p;
-                if(Math.abs(m-w) > available){
-                    if(m>w){
-                        w += available;
-                    }
-                    else{
-                        m+= available;
-                    }
-                }else{
-                    long rem = available - Math.abs(m-w);
-                    if(m > w){
-                        w+=Math.abs(m-w);
-                    }
-                    else{
-                        m += Math.abs(m-w);
-                    }
-                    long share = rem/2;
-                    long otherShare = rem - share;
-                    m+=share;
-                    w+=otherShare;
+                if(m*w >= target-candies){
+                    candies = candies+m*w;
+                    ret++;
                 }
+                else{
+                    long available = candies / price;
+                    if(Math.abs(m-w) >= available){
+                        if(m>w){
+                            w += available;
+                        }
+                        else{
+                            m+= available;
+                        }
+                    }else{
+                        long diff = Math.abs(m-w);
+                        long rem = available - diff;
+                        if(m > w){
+                            w+=diff;
+                        }
+                        else{
+                            m += diff;
+                        }
+                        //distribute evenly
+                        long share = rem/2;
+                        long otherShare = rem - share;
 
-                return helper(m,w,p,t+m*w-(available*p),r,ret);
+                        m+=share;
+                        w+=otherShare;
+                    }
+
+                    candies = candies+m*w-(available*price);
+                    ret++;
+                }
             }
+
+            spent = (long)Math.min(spent, ret + Math.ceil((double)(target-candies)/(m*w)));
+
         }
 
+        return Math.min(ret,spent);
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("input/MakingCandies"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("input/MakingCandies/MakingCandies4"));
         String[] mwpn = bufferedReader.readLine().split(" ");
 
         long m = Long.parseLong(mwpn[0]);
