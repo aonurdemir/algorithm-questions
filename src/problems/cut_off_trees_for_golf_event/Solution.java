@@ -78,7 +78,8 @@ class Solution {
                 ) {
                     //mark as visited as soon as possible so that we do not process this nodes again in the queue
                     //since we have already calculate its shortest distance by traversing BFS.
-                    //if edge weights weren't same as 1, we could not mark as visited. Because we
+                    //if edge weights weren't same as 1, we could not mark as visited.
+                    //If not, all the parents add this node to the queue again and again.
                     visited[nr][nc] = true;
                     q.add(new int[]{nr, nc, cv + 1});
                 }
