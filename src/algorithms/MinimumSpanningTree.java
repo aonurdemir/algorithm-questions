@@ -18,7 +18,7 @@ public class MinimumSpanningTree {
         // algorithm
         // set all vertices to INF except for the first one
         // get minimum vertex which is not in the set
-        // add it to the set
+        // add it to the set (like marking as visited)
         // for all adjacent vertices until set has size = graph.length
         //// if edge weight is less then its adjacent's current value, update
         //// also set as parent when adjacent value changed
