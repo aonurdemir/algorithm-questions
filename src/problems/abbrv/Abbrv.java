@@ -1,3 +1,5 @@
+package problems.abbrv;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,7 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-class Solution {
+class Abbrv {
 
     // Complete the abbreviation function below.
     static String abbreviation(String a, String b) {
